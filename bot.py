@@ -64,7 +64,7 @@ bot.remove_command('help')
 @bot.command()
 async def help(ctx):
     """Gets Status of RPI Server"""
-    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/help: Display this help window\n/status or /stat: show status of Raspberry Pi Server\n/M911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss\n\nVisit the creator here! https://aidanlemay.com/```")
+    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/help: Display this help window\n/M911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss\n\nVisit the creator here! https://aidanlemay.com/```")
 
 @bot.command()
 async def m911(ctx, num=1):

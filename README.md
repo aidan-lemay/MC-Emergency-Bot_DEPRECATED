@@ -32,10 +32,8 @@
 * Install NPM (Node.JS Package Manager)
 * `sudo npm install pm2 -g`
 * `pm2 ls`
-* `pm2 start hello.py --watch` (Omit `--watch` if you don't want your project auto-served when the project files are changed)
+* `pm2 start bot.py --watch` (Omit `--watch` if you don't want your project auto-served when the project files are changed)
 
 ### Command Definitions
 * `/help`: Displays Help command with these definitions
-* `/status` or `/stat`: show status of Raspberry Pi Server
 * `/M911 X#` [X#: Optional Quantity]: Returns X# of Monroe County 911 Events (Default 1) from https://www.monroecounty.gov/incidents911.rss
-* `/ping` or `/Ping`: Responds with "Pong!"
