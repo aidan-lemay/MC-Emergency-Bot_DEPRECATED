@@ -1,0 +1,3 @@
+tstore = 'DISCORD_TOKEN'
+# Guild ID's
+ids = [GUILD_ID]

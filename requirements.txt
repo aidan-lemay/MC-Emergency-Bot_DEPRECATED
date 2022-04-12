@@ -1,0 +1,11 @@
+discord.py==1.7.3
+discord-py-interactions==4.1.0
+discord-py-slash-command==3.0.3
+pandas==1.4.2
+requests-html==0.10.0
+
+# python3 -m pip install -U discord.py
+# python3 -m pip install -U discord-py-slash-command
+# python3 -m pip install -U discord-py-interactions
+# python3 -m pip install -U pandas
+# python3 -m pip install -U requests_html
