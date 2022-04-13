@@ -113,9 +113,10 @@ async def m911(ctx, num=1):
 async def ma911(ctx, num=1):
 
     df = get_feed()
+    l = df.len()
 
-    if num > 20:
-        num = 20
+    if num > l:
+        num = l
     elif num < 1:
         num = 1
 
