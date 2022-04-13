@@ -30,7 +30,6 @@ def get_source():
 def get_feed():
     response = get_source()
 
-    df = pd.DataFrame()
     out = list()
 
     with response as r:
@@ -39,12 +38,40 @@ def get_feed():
         for item in items:        
 
             title = item.find('title', first=True).text
-            
-            description = item.find('description', first=True).text
 
-            pubdate = item.find('pubDate', first=True).text
+            if title.startswith("PARKING INCIDENT"):
+                break
 
-            out.append(title + " | " + description + " | " + pubdate)
+            else:
+                description = item.find('description', first=True).text
+
+                pubdate = item.find('pubDate', first=True).text
+
+                out.append(title + " | " + description + " | " + pubdate)
+
+    return out
+
+def get_unfiltered():
+    response = get_source()
+
+    out = list()
+
+    with response as r:
+        items = r.html.find("item", first=False)
+
+        for item in items:        
+
+            title = item.find('title', first=True).text
+
+            if title.startswith("PARKING INCIDENT"):
+                break
+
+            else:
+                description = item.find('description', first=True).text
+
+                pubdate = item.find('pubDate', first=True).text
+
+                out.append(title + " | " + description + " | " + pubdate)
 
     return out
 
@@ -64,10 +91,26 @@ bot.remove_command('help')
 @bot.command()
 async def help(ctx):
     """Gets Status of RPI Server"""
-    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/help: Display this help window\n/M911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss\n\nVisit the creator here! https://aidanlemay.com/```")
+    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/help: Display this help window\n/M911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/ma911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n\nVisit the creator here! https://aidanlemay.com/```")
 
 @bot.command()
 async def m911(ctx, num=1):
+
+    df = get_feed()
+
+    if num > 20:
+        num = 20
+    elif num < 1:
+        num = 1
+
+    # for i in df:
+    j = 0
+    while j < num:
+        await ctx.send("```\n" + df[j] + "\n```")
+        j+=1
+
+@bot.command()
+async def ma911(ctx, num=1):
 
     df = get_feed()
 

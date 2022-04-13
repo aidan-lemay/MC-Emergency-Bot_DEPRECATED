@@ -36,4 +36,5 @@
 
 ### Command Definitions
 * `/help`: Displays Help command with these definitions
-* `/M911 X#` [X#: Optional Quantity]: Returns X# of Monroe County 911 Events (Default 1) from https://www.monroecounty.gov/incidents911.rss
+* `/m911 X#` [X#: Optional Quantity]: Returns X# of Monroe County 911 Events (Default 1) from https://www.monroecounty.gov/incidents911.rss with all 'Parking Incident's filtered out
+* `/ma911 X#` [X#: Optional Quantity]: Returns X# of Monroe County 911 Events (Default 1) from https://www.monroecounty.gov/incidents911.rss unfiltered
