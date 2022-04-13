@@ -39,10 +39,7 @@ def get_feed():
 
             title = item.find('title', first=True).text
 
-            if title.startswith("PARKING INCIDENT"):
-                break
-
-            else:
+            if not title.startswith("PARKING INCIDENT"):
                 description = item.find('description', first=True).text
 
                 pubdate = item.find('pubDate', first=True).text
@@ -63,15 +60,11 @@ def get_unfiltered():
 
             title = item.find('title', first=True).text
 
-            if title.startswith("PARKING INCIDENT"):
-                break
+            description = item.find('description', first=True).text
 
-            else:
-                description = item.find('description', first=True).text
+            pubdate = item.find('pubDate', first=True).text
 
-                pubdate = item.find('pubDate', first=True).text
-
-                out.append(title + " | " + description + " | " + pubdate)
+            out.append(title + " | " + description + " | " + pubdate)
 
     return out
 
@@ -112,7 +105,7 @@ async def m911(ctx, num=1):
 @bot.command()
 async def ma911(ctx, num=1):
 
-    df = get_feed()
+    df = get_unfiltered()
     l = df.len()
 
     if num > l:
