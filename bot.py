@@ -2,6 +2,8 @@
 # aidanlemay.com
 # admin@aidanlemay.com for more details
 
+from jinja2 import Undefined
+from more_itertools import first
 import discord
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
@@ -27,7 +29,7 @@ def get_source():
     except requests.exceptions.RequestException as e:
         print(e)
 
-def get_feed():
+def get_feed_monroe():
     response = get_source()
 
     out = list()
@@ -45,6 +47,58 @@ def get_feed():
                 pubdate = item.find('pubDate', first=True).text
 
                 out.append(title + " | " + description + " | " + pubdate)
+
+    return out
+
+def get_feed_roc():
+    response = get_source()
+
+    out = list()
+
+    with response as r:
+        items = r.html.find("item", first=False)
+
+        for item in items:        
+
+            title = item.find('title', first=True).text
+
+            if not title.startswith("PARKING INCIDENT"):
+
+                guid = item.find('guid', first=True).text
+
+                if "ROCE" in guid:
+
+                    description = item.find('description', first=True).text
+
+                    pubdate = item.find('pubDate', first=True).text
+
+                    out.append(title + " | " + description + " | " + pubdate)
+
+    return out
+
+def get_feed_hen():
+    response = get_source()
+
+    out = list()
+
+    with response as r:
+        items = r.html.find("item", first=False)
+
+        for item in items:        
+
+            title = item.find('title', first=True).text
+
+            if not title.startswith("PARKING INCIDENT"):
+
+                guid = item.find('guid', first=True).text
+
+                if "HENE" in guid:
+
+                    description = item.find('description', first=True).text
+
+                    pubdate = item.find('pubDate', first=True).text
+
+                    out.append(title + " | " + description + " | " + pubdate)
 
     return out
 
@@ -74,6 +128,7 @@ def get_unfiltered():
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord. Activity(type=discord.ActivityType.listening, name=' /helpme for a list of commands'))
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -82,42 +137,97 @@ async def on_ready():
 bot.remove_command('help')
 
 @bot.command()
-async def help(ctx):
+async def helpme(ctx):
     """Gets Status of RPI Server"""
-    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/help: Display this help window\n/M911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/ma911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n\nVisit the creator here! https://aidanlemay.com/```")
+    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/helpme: Display this help window\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n\nVisit the creator here! https://aidanlemay.com/```")
 
 @bot.command()
 async def m911(ctx, num=1):
 
-    df = get_feed()
+    df = get_feed_monroe()
 
     if num > 20:
         num = 20
     elif num < 1:
         num = 1
 
+    message = "```\nMonroe County 911 Events:\n"
+
     # for i in df:
     j = 0
     while j < num:
-        await ctx.send("```\n" + df[j] + "\n```")
+        message += "-> " + df[j] + "\n\n"
         j+=1
 
+    message += "```"    
+
+    await ctx.send(message)
+
 @bot.command()
-async def ma911(ctx, num=1):
+async def r911(ctx, num=1):
 
-    df = get_unfiltered()
-    l = df.len()
+    df = get_feed_roc()
 
-    if num > l:
-        num = l
+    if num > 20:
+        num = 20
     elif num < 1:
         num = 1
 
+    message = "```\nRochester Area 911 Events:\n"
+
     # for i in df:
     j = 0
     while j < num:
-        await ctx.send("```\n" + df[j] + "\n```")
+        message += "-> " + df[j] + "\n\n"
         j+=1
+
+    message += "```"    
+
+    await ctx.send(message)
+
+@bot.command()
+async def h911(ctx, num=1):
+
+    df = get_feed_hen()
+
+    if num > 20:
+        num = 20
+    elif num < 1:
+        num = 1
+
+    message = "```\nHenrietta Area 911 Events:\n"
+
+    # for i in df:
+    j = 0
+    while j < num:
+        message += "-> " + df[j] + "\n\n"
+        j+=1
+
+    message += "```"    
+
+    await ctx.send(message)
+
+@bot.command()
+async def a911(ctx, num=1):
+
+    df = get_unfiltered()
+
+    if num > 20:
+        num = 20
+    elif num < 1:
+        num = 1
+
+    message = "```ALL Monroe County 911 Events:\n"
+
+    # for i in df:
+    j = 0
+    while j < num:
+        message += "-> " + df[j] + "\n\n"
+        j+=1
+
+    message += "```"    
+
+    await ctx.send(message)
 
 @bot.command()
 async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
