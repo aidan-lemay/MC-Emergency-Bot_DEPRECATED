@@ -140,7 +140,20 @@ bot.remove_command('help')
 @bot.command()
 async def helpme(ctx):
     """Gets Status of RPI Server"""
-    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/helpme: Display this help window\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n\nVisit the creator here! https://aidanlemay.com/```")
+    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/helpme: Display this help window\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n/pogle or /polge: fun\n\nVisit the creator here! https://aidanlemay.com/```")
+
+@bot.command()
+async def polge(ctx):
+    """Returns a picture of polge"""
+    pogle = discord.File("pogle.png", filename="...")
+    await ctx.send("content", file=pogle)
+
+@bot.command()
+async def pogle(ctx):
+    """Returns a picture of polge"""
+    pogle = discord.File("pogle.png", filename="...")
+    await ctx.send("content", file=pogle)
+
 
 @bot.command()
 async def m911(ctx, num: Optional[int]):
@@ -270,7 +283,7 @@ async def on_command_error(self, ctx: commands.Context, error: commands.CommandE
     if isinstance(error, commands.CommandNotFound):
         message = "Sorry, this command was not found. Please check your input and try again!"
     elif isinstance(error, commands.CommandOnCooldown):
-        message = f"This command is on cooldown. Please try again after {round(error.retry_after, 1)} seconds."
+        message = f"This command is on cooldown. Please try again after {round(error.retry_after, 1)} second(s)."
     elif isinstance(error, commands.MissingPermissions):
         message = "You are missing the required permissions to run this command!"
     elif isinstance(error, commands.UserInputError):
