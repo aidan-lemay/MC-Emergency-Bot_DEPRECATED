@@ -145,16 +145,18 @@ async def helpme(ctx):
 @bot.command()
 async def polge(ctx):
     """Returns a picture of polge"""
-    e = discord.Embed()
-    e.set_image(url="pogle.png")
-    await ctx.send(e)
+    embed = discord.Embed(title="Title", description="Desc", color=0x06275c) #creates embed
+    pogle = discord.File("./pogle.png", filename="image.png")
+    embed.set_image(url="attachment://image.png")
+    await ctx.send(file=pogle, embed=embed)
 
 @bot.command()
 async def pogle(ctx):
     """Returns a picture of pogle"""
-    e = discord.Embed()
-    e.set_image(url="pogle.png")
-    await ctx.send(e)
+    embed = discord.Embed(title="Title", description="Desc", color=0x06275c) #creates embed
+    pogle = discord.File("./pogle.png", filename="image.png")
+    embed.set_image(url="attachment://image.png")
+    await ctx.send(file=pogle, embed=embed)
 
 @bot.command()
 async def m911(ctx, num: Optional[int]):
