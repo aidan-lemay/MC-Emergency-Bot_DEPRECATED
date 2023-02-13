@@ -145,7 +145,7 @@ async def helpme(ctx):
 @bot.command()
 async def polge(ctx):
     """Returns a picture of polge"""
-    embed = discord.Embed(title="Title", description="Desc", color=0x06275c) #creates embed
+    embed = discord.Embed(title="pogle", description="pogle", color=0x06275c) #creates embed
     pogle = discord.File("./pogle.png", filename="image.png")
     embed.set_image(url="attachment://image.png")
     await ctx.send(file=pogle, embed=embed)
@@ -153,7 +153,7 @@ async def polge(ctx):
 @bot.command()
 async def pogle(ctx):
     """Returns a picture of pogle"""
-    embed = discord.Embed(title="Title", description="Desc", color=0x06275c) #creates embed
+    embed = discord.Embed(title="pogle", description="pogle", color=0x06275c) #creates embed
     pogle = discord.File("./pogle.png", filename="image.png")
     embed.set_image(url="attachment://image.png")
     await ctx.send(file=pogle, embed=embed)
