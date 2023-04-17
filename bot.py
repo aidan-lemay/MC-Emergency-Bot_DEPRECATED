@@ -255,7 +255,7 @@ async def ritf(ctx):
     await ctx.send(message)
 
 @bot.command()
-async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
+async def pub(ctx, password: Optional[str], keyword: Optional[str]):
 
     if password != storage.pspass:
         ctx.send("Incorrect Password")
@@ -273,11 +273,6 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
 
             if (num is None):
                 num = 24
-
-            if (num is not None and num > 0 and num < 24):
-                mintime = curtime - timedelta(hours = num)
-            elif (num > 24 or num is None):
-                mintime = curtime - timedelta(hours = 24)
 
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
