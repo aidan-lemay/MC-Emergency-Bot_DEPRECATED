@@ -160,6 +160,9 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
+        if (num is None):
+            num = 24
+
         if (num is not None and num > 0 and num < 24):
             mintime = curtime - timedelta(hours = num)
         elif (num > 24 or num is None):
