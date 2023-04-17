@@ -1,14 +1,11 @@
 # WRITTEN BY AIDAN LEMAY
 # aidanlemay.com
 # admin@aidanlemay.com for more details
-
-from datetime import timedelta
-import datetime
 import discord
 from discord.ext import commands
-
 import storage
 from requests_html import HTMLSession
+from datetime import datetime, timedelta
 import requests
 from typing import Optional
 

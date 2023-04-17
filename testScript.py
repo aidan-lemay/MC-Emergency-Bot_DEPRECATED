@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta
 import time
-import pandas as pd
-from requests_html import HTMLSession
 import requests
 from typing import Optional
 
