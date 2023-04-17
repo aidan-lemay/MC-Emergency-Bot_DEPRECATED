@@ -14,7 +14,6 @@ from typing import Optional
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="/", intents=intents)
-slash = SlashCommand(bot)
 
 monems = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1077"
 henfire = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1654"
