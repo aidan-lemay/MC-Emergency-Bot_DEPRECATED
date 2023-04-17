@@ -271,9 +271,6 @@ async def pub(ctx, password: Optional[str], keyword: Optional[str]):
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
-            if (num is None):
-                num = 24
-
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
                 if (calltime > mintime and keyword in text):
