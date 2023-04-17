@@ -178,7 +178,7 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
             if (calltime > mintime):
                 message += str(timestamp) + " | " + text + "\n\n"
         
-        message = message[ 0 : 3997 ]
+        message = message[ 0 : 1997 ]
 
     message += "```"
 
