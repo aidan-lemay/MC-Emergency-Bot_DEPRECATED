@@ -152,9 +152,9 @@ async def helpme(ctx):
     \nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot
     \n\n__Command Help:__
     \n/helpme: Display this help window
-    \n/ems [X#: Optional Lookback Time In Hours] [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
+    \n/ems [X String: Optional Keyword Matching String] [X#: Optional Lookback Time In Hours]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
-    \n/hfd [X#: Optional Lookback Time In Hours] [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
+    \n/hfd [X String: Optional Keyword Matching String] [X#: Optional Lookback Time In Hours]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
     \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
     \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
@@ -165,7 +165,7 @@ async def helpme(ctx):
     """)
 
 @bot.command()
-async def ems(ctx, num: Optional[int], keyword: Optional[str]):
+async def ems(ctx, keyword: Optional[str], num: Optional[int]):
     response = get_source_clearcut(monems)
     message = "```Monroe County EMS Call Transcripts:\n\n"
 
@@ -218,7 +218,7 @@ async def rite(ctx):
     await ctx.send(message)
 
 @bot.command()
-async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
+async def hfd(ctx, keyword: Optional[str], num: Optional[int]):
     response = get_source_clearcut(henfire)
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
