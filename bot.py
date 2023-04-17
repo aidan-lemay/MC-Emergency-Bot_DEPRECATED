@@ -151,7 +151,7 @@ async def helpme(ctx):
 @bot.command()
 async def ems(ctx, num: Optional[int], keyword: Optional[str]):
     response = get_source_clearcut(monems)
-    message = "```Monroe County EMS Call Transcripts:\n"
+    message = "```Monroe County EMS Call Transcripts:\n\n"
 
     for data in response:
         curtime = datetime.today()
@@ -160,19 +160,19 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (num > 0 and num < 24):
+        if (num is not None and num > 0 and num < 24):
             mintime = curtime - timedelta(hours = num)
-        elif (num > 24):
+        elif (num > 24 or num is None):
             mintime = curtime - timedelta(hours = 24)
 
         if (keyword is not None):
             # Get all calls within num range with matching keywords
             if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n"
+                message += str(timestamp) + " | " + text + "\n\n"
         else:
             # Get all calls within num range
             if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n"
+                message += str(timestamp) + " | " + text + "\n\n"
 
     message += "```"
 
@@ -181,7 +181,7 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
 @bot.command()
 async def rite(ctx):
     response = get_source_clearcut(monems)
-    message = "```RIT EMS Call Transcripts:\n"
+    message = "```RIT EMS Call Transcripts:\n\n"
 
     for data in response:
         timestamp = datetime.fromtimestamp(data['startTime'])
@@ -189,7 +189,7 @@ async def rite(ctx):
 
         # Get all calls within num range with matching keywords
         if ("RIT" in text or "6359" in text):
-            message += str(timestamp) + " | " + text + "\n"
+            message += str(timestamp) + " | " + text + "\n\n"
 
     message += "```"
 
@@ -215,11 +215,11 @@ async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
         if (keyword is not None):
             # Get all calls within num range with matching keywords
             if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n"
+                message += str(timestamp) + " | " + text + "\n\n"
         else:
             # Get all calls within num range
             if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n"
+                message += str(timestamp) + " | " + text + "\n\n"
 
     message += "```"
 
@@ -228,7 +228,7 @@ async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
 @bot.command()
 async def ritf(ctx):
     response = get_source_clearcut(henfire)
-    message = "```RIT Fire Related Call Transcripts:\n"
+    message = "```RIT Fire Related Call Transcripts:\n\n"
 
     for data in response:
         timestamp = datetime.fromtimestamp(data['startTime'])
@@ -236,7 +236,7 @@ async def ritf(ctx):
 
         # Get all calls within num range with matching keywords
         if ("RIT" in text):
-            message += str(timestamp) + " | " + text + "\n"
+            message += str(timestamp) + " | " + text + "\n\n"
 
     message += "```"
 
@@ -250,7 +250,7 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
     else:
 
         response = get_source_clearcut(ritpub)
-        message = "```RIT Public Safety Call Transcripts:\n"
+        message = "```RIT Public Safety Call Transcripts:\n\n"
 
         for data in response:
             curtime = datetime.today()
@@ -267,11 +267,11 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
                 if (calltime > mintime and keyword in text):
-                    message += str(timestamp) + " | " + text + "\n"
+                    message += str(timestamp) + " | " + text + "\n\n"
             else:
                 # Get all calls within num range
                 if (calltime > mintime):
-                    message += str(timestamp) + " | " + text + "\n"
+                    message += str(timestamp) + " | " + text + "\n\n"
 
         message += "```"
 
