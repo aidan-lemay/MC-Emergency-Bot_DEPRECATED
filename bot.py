@@ -160,7 +160,7 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (num > 0 & num < 24):
+        if (num > 0 and num < 24):
             mintime = curtime - timedelta(hours = num)
         elif (num > 24):
             mintime = curtime - timedelta(hours = 24)
@@ -207,7 +207,7 @@ async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (num > 0 & num < 24):
+        if (num > 0 and num < 24):
             mintime = curtime - timedelta(hours = num)
         elif (num > 24):
             mintime = curtime - timedelta(hours = 24)
@@ -259,7 +259,7 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
-            if (num > 0 & num < 24):
+            if (num > 0 and num < 24):
                 mintime = curtime - timedelta(hours = num)
             elif (num > 24):
                 mintime = curtime - timedelta(hours = 24)
