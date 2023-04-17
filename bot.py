@@ -183,6 +183,8 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
 
     message += "```"
 
+    print(len(message))
+
     await ctx.send(message)
 
 @bot.command()
