@@ -155,7 +155,7 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
     numCalls = 0
 
     for data in response:
-        if numCalls <= 400:
+        if numCalls <= 50:
             curtime = datetime.today()
             timestamp = datetime.fromtimestamp(data['startTime'])
             calltime = datetime.fromtimestamp(data['startTime'])
