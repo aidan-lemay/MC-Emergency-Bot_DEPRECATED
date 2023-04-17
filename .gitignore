@@ -6,6 +6,7 @@
 # Environment Variable Storage
 storage.py
 *.code-workspace
+mcems/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

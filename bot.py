@@ -2,15 +2,12 @@
 # aidanlemay.com
 # admin@aidanlemay.com for more details
 
-from jinja2 import Undefined
-from more_itertools import first
+from datetime import timedelta
+import datetime
 import discord
 from discord.ext import commands
-from discord_slash import SlashCommand, SlashContext
-from discord_slash.utils.manage_commands import create_option
-import subprocess
+
 import storage
-import pandas as pd
 from requests_html import HTMLSession
 import requests
 from typing import Optional
@@ -19,12 +16,25 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="/", intents=intents)
 slash = SlashCommand(bot)
 
+monems = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1077"
+henfire = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1654"
+ritpub = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=3070"
+
 # Sync Functions
 
 def get_source():
     try:
         session = HTMLSession()
         response = session.get("https://www.monroecounty.gov/incidents911.rss")
+        return response
+
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+def get_source_clearcut(url):
+    try:
+        data = requests.get(url=url)
+        response = data.json()
         return response
 
     except requests.exceptions.RequestException as e:
@@ -141,6 +151,135 @@ bot.remove_command('help')
 async def helpme(ctx):
     """Gets Status of RPI Server"""
     await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/helpme: Display this help window\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n/pogle or /polge: fun\n\nVisit the creator here! https://aidanlemay.com/```")
+
+@bot.command()
+async def ems(ctx, num: Optional[int], keyword: Optional[str]):
+    response = get_source_clearcut(monems)
+    message = "```Monroe County EMS Call Transcripts:\n"
+
+    for data in response:
+        curtime = datetime.today()
+        timestamp = datetime.fromtimestamp(data['startTime'])
+        calltime = datetime.fromtimestamp(data['startTime'])
+        mintime = curtime - timedelta(hours = 24)
+        text = data['transcript']['text']
+
+        if (num > 0 & num < 24):
+            mintime = curtime - timedelta(hours = num)
+        elif (num > 24):
+            mintime = curtime - timedelta(hours = 24)
+
+        if (keyword is not None):
+            # Get all calls within num range with matching keywords
+            if (calltime > mintime and keyword in text):
+                message += str(timestamp) + " | " + text + "\n"
+        else:
+            # Get all calls within num range
+            if (calltime > mintime):
+                message += str(timestamp) + " | " + text + "\n"
+
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def rite(ctx):
+    response = get_source_clearcut(monems)
+    message = "```RIT EMS Call Transcripts:\n"
+
+    for data in response:
+        timestamp = datetime.fromtimestamp(data['startTime'])
+        text = data['transcript']['text']
+
+        # Get all calls within num range with matching keywords
+        if ("RIT" in text or "6359" in text):
+            message += str(timestamp) + " | " + text + "\n"
+
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
+    response = get_source_clearcut(henfire)
+    message = "```Henrietta Fire Department Call Transcripts:\n"
+
+    for data in response:
+        curtime = datetime.today()
+        timestamp = datetime.fromtimestamp(data['startTime'])
+        calltime = datetime.fromtimestamp(data['startTime'])
+        mintime = curtime - timedelta(hours = 24)
+        text = data['transcript']['text']
+
+        if (num > 0 & num < 24):
+            mintime = curtime - timedelta(hours = num)
+        elif (num > 24):
+            mintime = curtime - timedelta(hours = 24)
+
+        if (keyword is not None):
+            # Get all calls within num range with matching keywords
+            if (calltime > mintime and keyword in text):
+                message += str(timestamp) + " | " + text + "\n"
+        else:
+            # Get all calls within num range
+            if (calltime > mintime):
+                message += str(timestamp) + " | " + text + "\n"
+
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def ritf(ctx):
+    response = get_source_clearcut(henfire)
+    message = "```RIT Fire Related Call Transcripts:\n"
+
+    for data in response:
+        timestamp = datetime.fromtimestamp(data['startTime'])
+        text = data['transcript']['text']
+
+        # Get all calls within num range with matching keywords
+        if ("RIT" in text):
+            message += str(timestamp) + " | " + text + "\n"
+
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
+
+    if password != storage.pspass:
+        ctx.send("Incorrect Password")
+    else:
+
+        response = get_source_clearcut(ritpub)
+        message = "```RIT Public Safety Call Transcripts:\n"
+
+        for data in response:
+            curtime = datetime.today()
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            calltime = datetime.fromtimestamp(data['startTime'])
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
+
+            if (num > 0 & num < 24):
+                mintime = curtime - timedelta(hours = num)
+            elif (num > 24):
+                mintime = curtime - timedelta(hours = 24)
+
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n"
+
+        message += "```"
+
+        await ctx.send(message)
 
 @bot.command()
 async def polge(ctx):
