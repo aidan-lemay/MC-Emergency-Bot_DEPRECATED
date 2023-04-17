@@ -152,30 +152,34 @@ async def helpme(ctx):
 async def ems(ctx, num: Optional[int], keyword: Optional[str]):
     response = get_source_clearcut(monems)
     message = "```Monroe County EMS Call Transcripts:\n\n"
+    numCalls = 0
 
     for data in response:
-        curtime = datetime.today()
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        calltime = datetime.fromtimestamp(data['startTime'])
-        mintime = curtime - timedelta(hours = 24)
-        text = data['transcript']['text']
-
-        if (num is None):
-            num = 24
-
-        if (num is not None and num > 0 and num < 24):
-            mintime = curtime - timedelta(hours = num)
-        elif (num > 24 or num is None):
+        if numCalls <= 400:
+            curtime = datetime.today()
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            calltime = datetime.fromtimestamp(data['startTime'])
             mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
 
-        if (keyword is not None):
-            # Get all calls within num range with matching keywords
-            if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n\n"
-        else:
-            # Get all calls within num range
-            if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n\n"
+            if (num is None):
+                num = 24
+
+            if (num is not None and num > 0 and num < 24):
+                mintime = curtime - timedelta(hours = num)
+            elif (num > 24 or num is None):
+                mintime = curtime - timedelta(hours = 24)
+
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
+        
+        numCalls += 1
 
     message += "```"
 
