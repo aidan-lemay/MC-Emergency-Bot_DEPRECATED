@@ -146,7 +146,23 @@ bot.remove_command('help')
 @bot.command()
 async def helpme(ctx):
     """Gets Status of RPI Server"""
-    await ctx.send("```\nRaspberryPiBot Discord Bot Help!\n\nCreated by Aidan LeMay using Discord.py\nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot\n\n__Command Help:__\n/helpme: Display this help window\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out\n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out\n/pogle or /polge: fun\n\nVisit the creator here! https://aidanlemay.com/```")
+    await ctx.send("""
+    ```\MC Emergency Services Discord Bot Help!
+    \n\nCreated by Aidan LeMay using Discord.py
+    \nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot
+    \n\n__Command Help:__
+    \n/helpme: Display this help window
+    \n/ems [X#: Optional Lookback Time In Hours] [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
+    \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
+    \n/hfd [X#: Optional Lookback Time In Hours] [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
+    \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
+    \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
+    \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
+    \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
+    \n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out
+    \n/pogle or /polge: fun
+    \n\nVisit the creator here! https://aidanlemay.com/```
+    """)
 
 @bot.command()
 async def ems(ctx, num: Optional[int], keyword: Optional[str]):
@@ -193,7 +209,7 @@ async def rite(ctx):
         text = data['transcript']['text']
 
         # Get all calls within num range with matching keywords
-        if ("RIT" in text or "6359" in text):
+        if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
             message += str(timestamp) + " | " + text + "\n\n"
 
     message = message[ 0 : 1997 ]
@@ -258,7 +274,7 @@ async def ritf(ctx):
 async def pub(ctx, password: Optional[str], keyword: Optional[str]):
 
     if password != storage.pspass:
-        ctx.send("Incorrect Password")
+        await ctx.send("Incorrect Password")
     else:
 
         response = get_source_clearcut(ritpub)
