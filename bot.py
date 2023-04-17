@@ -152,7 +152,6 @@ async def helpme(ctx):
 async def ems(ctx, num: Optional[int], keyword: Optional[str]):
     response = get_source_clearcut(monems)
     message = "```Monroe County EMS Call Transcripts:\n\n"
-    numCalls = 0
 
     for data in response:
         curtime = datetime.today()
@@ -178,11 +177,9 @@ async def ems(ctx, num: Optional[int], keyword: Optional[str]):
             if (calltime > mintime):
                 message += str(timestamp) + " | " + text + "\n\n"
         
-        message = message[ 0 : 1997 ]
+    message = message[ 0 : 1997 ]
 
     message += "```"
-
-    print(len(message))
 
     await ctx.send(message)
 
@@ -199,6 +196,7 @@ async def rite(ctx):
         if ("RIT" in text or "6359" in text):
             message += str(timestamp) + " | " + text + "\n\n"
 
+    message = message[ 0 : 1997 ]
     message += "```"
 
     await ctx.send(message)
@@ -215,9 +213,12 @@ async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (num > 0 and num < 24):
+        if (num is None):
+            num = 24
+
+        if (num is not None and num > 0 and num < 24):
             mintime = curtime - timedelta(hours = num)
-        elif (num > 24):
+        elif (num > 24 or num is None):
             mintime = curtime - timedelta(hours = 24)
 
         if (keyword is not None):
@@ -228,6 +229,8 @@ async def hfd(ctx, num: Optional[int], keyword: Optional[str]):
             # Get all calls within num range
             if (calltime > mintime):
                 message += str(timestamp) + " | " + text + "\n\n"
+        
+    message = message[ 0 : 1997 ]
 
     message += "```"
 
@@ -246,6 +249,7 @@ async def ritf(ctx):
         if ("RIT" in text):
             message += str(timestamp) + " | " + text + "\n\n"
 
+    message = message[ 0 : 1997 ]
     message += "```"
 
     await ctx.send(message)
@@ -267,9 +271,12 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
-            if (num > 0 and num < 24):
+            if (num is None):
+                num = 24
+
+            if (num is not None and num > 0 and num < 24):
                 mintime = curtime - timedelta(hours = num)
-            elif (num > 24):
+            elif (num > 24 or num is None):
                 mintime = curtime - timedelta(hours = 24)
 
             if (keyword is not None):
@@ -280,7 +287,8 @@ async def pub(ctx, num: Optional[int], keyword: Optional[str], password):
                 # Get all calls within num range
                 if (calltime > mintime):
                     message += str(timestamp) + " | " + text + "\n\n"
-
+        
+        message = message[ 0 : 1997 ]
         message += "```"
 
         await ctx.send(message)
