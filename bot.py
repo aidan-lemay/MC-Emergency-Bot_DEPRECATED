@@ -269,9 +269,9 @@ async def tgs(ctx, keyword: Optional[str]):
 
         if (keyword is not None):
             if (keyword in category or keyword in name):
-                message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + transcribed + "\n\n"
+                message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + str(transcribed) + "\n\n"
         elif (keyword is None):
-            message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + transcribed + "\n\n"
+            message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + str(transcribed) + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
