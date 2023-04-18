@@ -266,7 +266,7 @@ async def tgs(ctx):
         category = data['category']
         name = data['name']
 
-        message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name
+        message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
