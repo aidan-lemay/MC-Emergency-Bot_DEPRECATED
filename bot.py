@@ -178,14 +178,15 @@ async def ems(ctx, keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (keyword is not None):
-            # Get all calls within num range with matching keywords
-            if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n\n"
-        else:
-            # Get all calls within num range
-            if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n\n"
+        if (text is not None):
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
         
     message = message[ 0 : 1997 ]
 
@@ -202,9 +203,10 @@ async def rite(ctx):
         timestamp = datetime.fromtimestamp(data['startTime'])
         text = data['transcript']['text']
 
-        # Get all calls within num range with matching keywords
-        if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
-            message += str(timestamp) + " | " + text + "\n\n"
+        if (text is not None):
+            # Get all calls within num range with matching keywords
+            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
+                message += str(timestamp) + " | " + text + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
@@ -216,8 +218,6 @@ async def hfd(ctx, keyword: Optional[str]):
     response = get_source_clearcut(henfire)
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
-    print(response[0]['transcript'])
-
     for data in response:
         curtime = datetime.today()
         timestamp = datetime.fromtimestamp(data['startTime'])
@@ -225,14 +225,15 @@ async def hfd(ctx, keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (keyword is not None):
-            # Get all calls within num range with matching keywords
-            if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n\n"
-        else:
-            # Get all calls within num range
-            if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n\n"
+        if (text is not None):
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
         
     message = message[ 0 : 1997 ]
 
@@ -249,9 +250,10 @@ async def ritf(ctx):
         timestamp = datetime.fromtimestamp(data['startTime'])
         text = data['transcript']['text']
 
-        # Get all calls within num range with matching keywords
-        if ("RIT" in text):
-            message += str(timestamp) + " | " + text + "\n\n"
+        if (text is not None):
+            # Get all calls within num range with matching keywords
+            if ("RIT" in text):
+                message += str(timestamp) + " | " + text + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
@@ -293,14 +295,15 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
 
-        if (keyword is not None):
-            # Get all calls within num range with matching keywords
-            if (calltime > mintime and keyword in text):
-                message += str(timestamp) + " | " + text + "\n\n"
-        else:
-            # Get all calls within num range
-            if (calltime > mintime):
-                message += str(timestamp) + " | " + text + "\n\n"
+        if (text is not None):
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
     
     message = message[ 0 : 1997 ]
     message += "```"
@@ -324,14 +327,15 @@ async def pub(ctx, password: Optional[str], keyword: Optional[str]):
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
-            if (keyword is not None):
-                # Get all calls within num range with matching keywords
-                if (calltime > mintime and keyword in text):
-                    message += str(timestamp) + " | " + text + "\n\n"
-            else:
-                # Get all calls within num range
-                if (calltime > mintime):
-                    message += str(timestamp) + " | " + text + "\n\n"
+            if (text is not None):
+                if (keyword is not None):
+                    # Get all calls within num range with matching keywords
+                    if (calltime > mintime and keyword in text):
+                        message += str(timestamp) + " | " + text + "\n\n"
+                else:
+                    # Get all calls within num range
+                    if (calltime > mintime):
+                        message += str(timestamp) + " | " + text + "\n\n"
         
         message = message[ 0 : 1997 ]
         message += "```"
