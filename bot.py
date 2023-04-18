@@ -259,6 +259,7 @@ async def ritf(ctx):
 async def cus(ctx, talkgroup: Optional[int], keyword: Optional[str]):
 
     response = get_source_clearcut("https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=" + str(talkgroup))
+    print("https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=" + str(talkgroup))
     message = "```Custom Call Data from TG" + str(talkgroup) + ":\n\n"
 
     for data in response:
