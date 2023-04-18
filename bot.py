@@ -153,7 +153,7 @@ async def helpme(ctx):
     \n\n__Command Help:__
     \n/helpme: Display this help window
     \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
-    \n/tgs: Returns list of active talkgroups
+    \n/tgs [X String: Optional Keyword Matching String]: Returns list of active talkgroups with optional keywords
     \n/ems [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
@@ -257,16 +257,17 @@ async def ritf(ctx):
     await ctx.send(message)
 
 @bot.command()
-async def tgs(ctx):
+async def tgs(ctx, keyword: Optional[str]):
     response = get_source_clearcut("https://cc.k9fgt.me/api/v1/talkgroups?system=us.ny.monroe&active=true")
-    message = "```List of Active Monroe County Talkgroups:\n-----------------------------------------------------------\n\n"
+    message = "```List of Active Monroe County Talkgroups:\n------------------------\n\n"
 
     for data in response:
         tg = data['id']
         category = data['category']
         name = data['name']
 
-        message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
+        if (keyword is not None and keyword in category or keyword in name):
+            message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
