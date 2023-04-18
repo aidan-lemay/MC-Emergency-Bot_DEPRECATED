@@ -3,6 +3,7 @@ discord-py-interactions==4.1.0
 discord-py-slash-command==3.0.3
 pandas==1.4.2
 requests-html==0.10.0
+pytz==2022.1
 
 # python3 -m pip install -U discord.py
 # python3 -m pip install -U discord-py-slash-command
