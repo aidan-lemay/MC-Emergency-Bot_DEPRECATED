@@ -152,7 +152,8 @@ async def helpme(ctx):
     \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
     \n\n__Command Help:__
     \n/helpme: Display this help window
-    \n/cus [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
+    \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
+    \n/tgs: Returns list of active talkgroups
     \n/ems [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
@@ -256,7 +257,24 @@ async def ritf(ctx):
     await ctx.send(message)
 
 @bot.command()
-async def cus(ctx, talkgroup: Optional[int], keyword: Optional[str]):
+async def tgs(ctx):
+    response = get_source_clearcut("https://cc.k9fgt.me/api/v1/talkgroups?system=us.ny.monroe&active=true")
+    message = "```List of Active Monroe County Talkgroups:\n\n"
+
+    for data in response:
+        tg = data['id']
+        category = data['category']
+        name = data['name']
+
+        message += "TGID: " + tg + " | Category: " + category + " | Name: " + name
+
+    message = message[ 0 : 1997 ]
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
 
     response = get_source_clearcut("https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=" + str(talkgroup).strip())
     message = "```Custom Call Data from TG" + str(talkgroup).strip() + ":\n\n"
