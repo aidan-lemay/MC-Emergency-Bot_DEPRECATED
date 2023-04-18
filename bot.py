@@ -266,8 +266,9 @@ async def tgs(ctx, keyword: Optional[str]):
         category = data['category']
         name = data['name']
 
-        if (keyword is not None and keyword in category or keyword in name):
-            message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
+        if (keyword is not None):
+            if (keyword in category or keyword in name):
+                message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
         elif (keyword is None):
             message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
 
