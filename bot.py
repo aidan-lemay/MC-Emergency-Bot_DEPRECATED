@@ -268,6 +268,8 @@ async def tgs(ctx, keyword: Optional[str]):
 
         if (keyword is not None and keyword in category or keyword in name):
             message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
+        elif (keyword is None):
+            message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
