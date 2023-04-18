@@ -152,9 +152,10 @@ async def helpme(ctx):
     \nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot
     \n\n__Command Help:__
     \n/helpme: Display this help window
-    \n/ems [X String: Optional Keyword Matching String] [X#: Optional Lookback Time In Hours]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
+    \n/cus [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
+    \n/ems [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
-    \n/hfd [X String: Optional Keyword Matching String] [X#: Optional Lookback Time In Hours]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
+    \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
     \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
     \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
@@ -165,7 +166,7 @@ async def helpme(ctx):
     """)
 
 @bot.command()
-async def ems(ctx, keyword: Optional[str], num: Optional[int]):
+async def ems(ctx, keyword: Optional[str]):
     response = get_source_clearcut(monems)
     message = "```Monroe County EMS Call Transcripts:\n\n"
 
@@ -175,14 +176,6 @@ async def ems(ctx, keyword: Optional[str], num: Optional[int]):
         calltime = datetime.fromtimestamp(data['startTime'])
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
-
-        if (num is None):
-            num = 24
-
-        if (num is not None and num > 0 and num < 24):
-            mintime = curtime - timedelta(hours = num)
-        elif (num > 24 or num is None):
-            mintime = curtime - timedelta(hours = 24)
 
         if (keyword is not None):
             # Get all calls within num range with matching keywords
@@ -218,7 +211,7 @@ async def rite(ctx):
     await ctx.send(message)
 
 @bot.command()
-async def hfd(ctx, keyword: Optional[str], num: Optional[int]):
+async def hfd(ctx, keyword: Optional[str]):
     response = get_source_clearcut(henfire)
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
@@ -228,14 +221,6 @@ async def hfd(ctx, keyword: Optional[str], num: Optional[int]):
         calltime = datetime.fromtimestamp(data['startTime'])
         mintime = curtime - timedelta(hours = 24)
         text = data['transcript']['text']
-
-        if (num is None):
-            num = 24
-
-        if (num is not None and num > 0 and num < 24):
-            mintime = curtime - timedelta(hours = num)
-        elif (num > 24 or num is None):
-            mintime = curtime - timedelta(hours = 24)
 
         if (keyword is not None):
             # Get all calls within num range with matching keywords
@@ -265,6 +250,33 @@ async def ritf(ctx):
         if ("RIT" in text):
             message += str(timestamp) + " | " + text + "\n\n"
 
+    message = message[ 0 : 1997 ]
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def cus(ctx, talkgroup: Optional[int], keyword: Optional[str]):
+
+    response = get_source_clearcut("https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=" + str(talkgroup))
+    message = "```Custom Call Data from TG" + str(talkgroup) + ":\n\n"
+
+    for data in response:
+        curtime = datetime.today()
+        timestamp = datetime.fromtimestamp(data['startTime'])
+        calltime = datetime.fromtimestamp(data['startTime'])
+        mintime = curtime - timedelta(hours = 24)
+        text = data['transcript']['text']
+
+        if (keyword is not None):
+            # Get all calls within num range with matching keywords
+            if (calltime > mintime and keyword in text):
+                message += str(timestamp) + " | " + text + "\n\n"
+        else:
+            # Get all calls within num range
+            if (calltime > mintime):
+                message += str(timestamp) + " | " + text + "\n\n"
+    
     message = message[ 0 : 1997 ]
     message += "```"
 
