@@ -259,14 +259,14 @@ async def ritf(ctx):
 @bot.command()
 async def tgs(ctx):
     response = get_source_clearcut("https://cc.k9fgt.me/api/v1/talkgroups?system=us.ny.monroe&active=true")
-    message = "```List of Active Monroe County Talkgroups:\n\n"
+    message = "```List of Active Monroe County Talkgroups:\n-----------------------------------------------------------\n\n"
 
     for data in response:
         tg = data['id']
         category = data['category']
         name = data['name']
 
-        message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n"
+        message += "TGID: " + str(tg) + " | Category: " + category + " | Name: " + name + "\n\n"
 
     message = message[ 0 : 1997 ]
     message += "```"
