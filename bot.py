@@ -173,9 +173,9 @@ async def ems(ctx, keyword: Optional[str]):
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-            curtime = datetime.today() - timedelta(hours = 5)
-            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
-            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
@@ -201,7 +201,7 @@ async def rite(ctx):
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
             text = data['transcript']['text']
 
             # Get all calls within num range with matching keywords
@@ -220,9 +220,9 @@ async def hfd(ctx, keyword: Optional[str]):
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-            curtime = datetime.today() - timedelta(hours = 5)
-            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
-            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
@@ -248,7 +248,7 @@ async def ritf(ctx):
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
             text = data['transcript']['text']
 
             # Get all calls within num range with matching keywords
@@ -290,9 +290,9 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-            curtime = datetime.today() - timedelta(hours = 5)
-            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
-            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
             mintime = curtime - timedelta(hours = 24)
             text = data['transcript']['text']
 
@@ -322,9 +322,9 @@ async def pub(ctx, password: Optional[str], keyword: Optional[str]):
 
         for data in response:
             if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-                curtime = datetime.today() - timedelta(hours = 5)
-                timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
-                calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 5)
+                curtime = datetime.today() - timedelta(hours = 4)
+                timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+                calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
                 mintime = curtime - timedelta(hours = 24)
                 text = data['transcript']['text']
 
