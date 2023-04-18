@@ -172,13 +172,13 @@ async def ems(ctx, keyword: Optional[str]):
     message = "```Monroe County EMS Call Transcripts:\n\n"
 
     for data in response:
-        curtime = datetime.today()
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        calltime = datetime.fromtimestamp(data['startTime'])
-        mintime = curtime - timedelta(hours = 24)
-        text = data['transcript']['text']
+        if (data['transcript']['text'] is not None):
+            curtime = datetime.today()
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            calltime = datetime.fromtimestamp(data['startTime'])
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
 
-        if (text is not None):
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
                 if (calltime > mintime and keyword in text):
@@ -200,10 +200,10 @@ async def rite(ctx):
     message = "```RIT EMS Call Transcripts:\n\n"
 
     for data in response:
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        text = data['transcript']['text']
+        if (data['transcript']['text'] is not None):
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            text = data['transcript']['text']
 
-        if (text is not None):
             # Get all calls within num range with matching keywords
             if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
                 message += str(timestamp) + " | " + text + "\n\n"
@@ -219,13 +219,13 @@ async def hfd(ctx, keyword: Optional[str]):
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
     for data in response:
-        curtime = datetime.today()
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        calltime = datetime.fromtimestamp(data['startTime'])
-        mintime = curtime - timedelta(hours = 24)
-        text = data['transcript']['text']
+        if (data['transcript']['text'] is not None):
+            curtime = datetime.today()
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            calltime = datetime.fromtimestamp(data['startTime'])
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
 
-        if (text is not None):
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
                 if (calltime > mintime and keyword in text):
@@ -247,10 +247,10 @@ async def ritf(ctx):
     message = "```RIT Fire Related Call Transcripts:\n\n"
 
     for data in response:
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        text = data['transcript']['text']
+        if (data['transcript']['text'] is not None):
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            text = data['transcript']['text']
 
-        if (text is not None):
             # Get all calls within num range with matching keywords
             if ("RIT" in text):
                 message += str(timestamp) + " | " + text + "\n\n"
@@ -289,13 +289,13 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
     message = "```Custom Call Data from TG" + str(talkgroup).strip() + ":\n\n"
 
     for data in response:
-        curtime = datetime.today()
-        timestamp = datetime.fromtimestamp(data['startTime'])
-        calltime = datetime.fromtimestamp(data['startTime'])
-        mintime = curtime - timedelta(hours = 24)
-        text = data['transcript']['text']
+        if (data['transcript']['text'] is not None):
+            curtime = datetime.today()
+            timestamp = datetime.fromtimestamp(data['startTime'])
+            calltime = datetime.fromtimestamp(data['startTime'])
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
 
-        if (text is not None):
             if (keyword is not None):
                 # Get all calls within num range with matching keywords
                 if (calltime > mintime and keyword in text):
@@ -321,13 +321,14 @@ async def pub(ctx, password: Optional[str], keyword: Optional[str]):
         message = "```RIT Public Safety Call Transcripts:\n\n"
 
         for data in response:
-            curtime = datetime.today()
-            timestamp = datetime.fromtimestamp(data['startTime'])
-            calltime = datetime.fromtimestamp(data['startTime'])
-            mintime = curtime - timedelta(hours = 24)
-            text = data['transcript']['text']
+            if (data['transcript']['text'] is not None):
+                curtime = datetime.today()
+                timestamp = datetime.fromtimestamp(data['startTime'])
+                calltime = datetime.fromtimestamp(data['startTime'])
+                mintime = curtime - timedelta(hours = 24)
+                text = data['transcript']['text']
 
-            if (text is not None):
+                
                 if (keyword is not None):
                     # Get all calls within num range with matching keywords
                     if (calltime > mintime and keyword in text):
