@@ -265,7 +265,7 @@ async def tgs(ctx, keyword: Optional[str]):
         tg = data['id']
         category = data['category']
         name = data['name']
-        transcribed = data['transcribed']        
+        transcribed = data['transcribe']        
 
         if (keyword is not None):
             if (keyword in category or keyword in name):
