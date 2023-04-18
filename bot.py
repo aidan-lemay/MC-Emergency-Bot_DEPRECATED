@@ -216,7 +216,7 @@ async def hfd(ctx, keyword: Optional[str]):
     response = get_source_clearcut(henfire)
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
-    print(response[0])
+    print(response[0]['transcript'])
 
     for data in response:
         curtime = datetime.today()
