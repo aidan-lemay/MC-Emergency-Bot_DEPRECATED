@@ -172,7 +172,7 @@ async def ems(ctx, keyword: Optional[str]):
     message = "```Monroe County EMS Call Transcripts:\n\n"
 
     for data in response:
-        if (data['transcript']['text'] is not None):
+        if (data is not None and data['transcript'] is not None and data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
             curtime = datetime.today()
             timestamp = datetime.fromtimestamp(data['startTime'])
             calltime = datetime.fromtimestamp(data['startTime'])
@@ -200,7 +200,7 @@ async def rite(ctx):
     message = "```RIT EMS Call Transcripts:\n\n"
 
     for data in response:
-        if (data['transcript']['text'] is not None):
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
             timestamp = datetime.fromtimestamp(data['startTime'])
             text = data['transcript']['text']
 
@@ -219,7 +219,7 @@ async def hfd(ctx, keyword: Optional[str]):
     message = "```Henrietta Fire Department Call Transcripts:\n"
 
     for data in response:
-        if (data['transcript']['text'] is not None):
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
             curtime = datetime.today()
             timestamp = datetime.fromtimestamp(data['startTime'])
             calltime = datetime.fromtimestamp(data['startTime'])
@@ -247,7 +247,7 @@ async def ritf(ctx):
     message = "```RIT Fire Related Call Transcripts:\n\n"
 
     for data in response:
-        if (data['transcript']['text'] is not None):
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
             timestamp = datetime.fromtimestamp(data['startTime'])
             text = data['transcript']['text']
 
@@ -289,7 +289,7 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
     message = "```Custom Call Data from TG" + str(talkgroup).strip() + ":\n\n"
 
     for data in response:
-        if (data['transcript']['text'] is not None):
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
             curtime = datetime.today()
             timestamp = datetime.fromtimestamp(data['startTime'])
             calltime = datetime.fromtimestamp(data['startTime'])
@@ -321,7 +321,7 @@ async def pub(ctx, password: Optional[str], keyword: Optional[str]):
         message = "```RIT Public Safety Call Transcripts:\n\n"
 
         for data in response:
-            if (data['transcript']['text'] is not None):
+            if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
                 curtime = datetime.today()
                 timestamp = datetime.fromtimestamp(data['startTime'])
                 calltime = datetime.fromtimestamp(data['startTime'])
