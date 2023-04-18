@@ -149,7 +149,7 @@ async def helpme(ctx):
     await ctx.send("""
     ```\MC Emergency Services Discord Bot Help!
     \n\nCreated by Aidan LeMay using Discord.py
-    \nhttps://github.com/The-Doctor-Of-11/RaspberryPiBot
+    \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
     \n\n__Command Help:__
     \n/helpme: Display this help window
     \n/cus [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
