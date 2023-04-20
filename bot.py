@@ -248,7 +248,7 @@ async def hfd(ctx, keyword: Optional[str]):
 async def rit(ctx):
 
     response = get_source_clearcut(monems)
-    message += "RIT EMS Call Transcripts:\n\n"
+    message = "RIT EMS Call Transcripts:\n\n"
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
