@@ -15,7 +15,7 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 monems = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1077"
 henfire = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1654"
 ritpub = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=3070"
-rita = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1894"
+ritamb = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1894"
 
 # Sync Functions
 
@@ -279,7 +279,7 @@ async def rit(ctx):
 
 @bot.command()
 async def rita(ctx, keyword: Optional[str]):
-    response = get_source_clearcut(rita)
+    response = get_source_clearcut(ritamb)
     message = "```RIT Ambulance Call Transcripts:\n"
 
     for data in response:
