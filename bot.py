@@ -15,6 +15,7 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 monems = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1077"
 henfire = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1654"
 ritpub = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=3070"
+rita = "https://cc.k9fgt.me/api/v1/calls?system=us.ny.monroe&talkgroup=1894"
 
 # Sync Functions
 
@@ -154,6 +155,8 @@ async def helpme(ctx):
     \n/helpme: Display this help window
     \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
     \n/tgs [X String: Optional Keyword Matching String]: Returns list of active talkgroups with optional keywords
+    \n/rit: Returns both fire and ems calls from last 24 hours having to do with RIT
+    \n/rita [X String: Optional Keyword Matching String]: Returns calls from the last 24 hours from TG 1894
     \n/ems [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
@@ -242,6 +245,68 @@ async def hfd(ctx, keyword: Optional[str]):
     await ctx.send(message)
 
 @bot.command()
+async def rit(ctx):
+
+    response = get_source_clearcut(monems)
+    message += "RIT EMS Call Transcripts:\n\n"
+
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            text = data['transcript']['text']
+
+            # Get all calls within num range with matching keywords
+            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
+                message += str(timestamp) + " | " + text + "\n\n"
+
+    response = get_source_clearcut(henfire)
+    message = "\n\nRIT Fire Related Call Transcripts:\n\n"
+
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            text = data['transcript']['text']
+
+            # Get all calls within num range with matching keywords
+            if ("RIT" in text):
+                message += str(timestamp) + " | " + text + "\n\n"
+
+    n = 1997 # chunk length
+    chunks = [message[i:i+n] for i in range(0, len(message), n)]
+
+    for c in chunks:
+        await ctx.send("```" + c + "```")
+
+@bot.command()
+async def rita(ctx, keyword: Optional[str]):
+    response = get_source_clearcut(rita)
+    message = "```RIT Ambulance Call Transcripts:\n"
+
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
+
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
+        
+    message = message[ 0 : 1997 ]
+
+    message += "```"
+
+    await ctx.send(message)
+
+
+@bot.command()
 async def ritf(ctx):
     response = get_source_clearcut(henfire)
     message = "```RIT Fire Related Call Transcripts:\n\n"
@@ -274,7 +339,7 @@ async def tgs(ctx, keyword: Optional[str]):
         if (keyword is not None):
             if (keyword in category or keyword in name):
                 message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + str(transcribed) + "\n\n"
-        elif (keyword is None):
+        elif (keyword is None and transcribed == True):
             message += "TGID: " + str(tg) + " | Name: " + name + " | Transcribed: " + str(transcribed) + "\n\n"
 
     message = message[ 0 : 1997 ]
