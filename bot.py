@@ -260,7 +260,7 @@ async def rit(ctx):
                 message += str(timestamp) + " | " + text + "\n\n"
 
     response = get_source_clearcut(henfire)
-    message = "\n\nRIT Fire Related Call Transcripts:\n\n"
+    message += "\n\nRIT Fire Related Call Transcripts:\n\n"
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
