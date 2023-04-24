@@ -271,7 +271,7 @@ async def rit(ctx):
             if ("RIT" in text):
                 message += str(timestamp) + " | " + text + "\n\n"
 
-    n = 1997 # chunk length
+    n = 1994 # chunk length
     chunks = [message[i:i+n] for i in range(0, len(message), n)]
 
     for c in chunks:
@@ -376,37 +376,32 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
     await ctx.send(message)
 
 @bot.command()
-async def pub(ctx, password: Optional[str], keyword: Optional[str]):
+async def ritp(ctx, password: Optional[str], keyword: Optional[str]):
+    response = get_source_clearcut(ritpub)
+    message = "```RIT Public Safety Call Transcripts:\n\n"
 
-    if password != storage.pspass:
-        await ctx.send("Incorrect Password")
-    else:
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
 
-        response = get_source_clearcut(ritpub)
-        message = "```RIT Public Safety Call Transcripts:\n\n"
+            
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
+    
+    message = message[ 0 : 1997 ]
+    message += "```"
 
-        for data in response:
-            if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
-                curtime = datetime.today() - timedelta(hours = 4)
-                timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
-                calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
-                mintime = curtime - timedelta(hours = 24)
-                text = data['transcript']['text']
-
-                
-                if (keyword is not None):
-                    # Get all calls within num range with matching keywords
-                    if (calltime > mintime and keyword in text):
-                        message += str(timestamp) + " | " + text + "\n\n"
-                else:
-                    # Get all calls within num range
-                    if (calltime > mintime):
-                        message += str(timestamp) + " | " + text + "\n\n"
-        
-        message = message[ 0 : 1997 ]
-        message += "```"
-
-        await ctx.send(message)
+    await ctx.send(message)
 
 @bot.command()
 async def polge(ctx):
