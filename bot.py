@@ -12,10 +12,10 @@ from typing import Optional
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="/", intents=intents)
 
-monems = "https://clearcutradio.app/systems/us-ny-monroe/talkgroups/1077"
-henfire = "https://clearcutradio.app/systems/us-ny-monroe/talkgroups/1654"
-ritpub = "https://clearcutradio.app/systems/us-ny-monroe/talkgroups/3070"
-ritamb = "https://clearcutradio.app/systems/us-ny-monroe/talkgroups/1894"
+monems = "https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe&talkgroup=1077"
+henfire = "https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe&talkgroup=1654"
+ritpub = "https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe&talkgroup=3070"
+ritamb = "https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe&talkgroup=1894"
 
 # Sync Functions
 
@@ -327,7 +327,7 @@ async def ritf(ctx):
 
 @bot.command()
 async def tgs(ctx, keyword: Optional[str]):
-    response = get_source_clearcut("https://clearcutradio.app/systems/us-ny-monroe")
+    response = get_source_clearcut("https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe")
     message = "```List of Active Monroe County Talkgroups:\n------------------------\n\n"
 
     for data in response:
@@ -350,7 +350,7 @@ async def tgs(ctx, keyword: Optional[str]):
 @bot.command()
 async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
 
-    response = get_source_clearcut("https://clearcutradio.app/systems/us-ny-monroe/talkgroups/" + str(talkgroup).strip())
+    response = get_source_clearcut("https://clearcutradio.app/api/v1/talkgroups?system=us-ny-monroe&talkgroup=" + str(talkgroup).strip())
     message = "```Custom Call Data from TG" + str(talkgroup).strip() + ":\n\n"
 
     for data in response:
