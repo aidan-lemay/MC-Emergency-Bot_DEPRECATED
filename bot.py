@@ -16,6 +16,7 @@ monems = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1
 henfire = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1654"
 ritpub = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=3070"
 ritamb = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1894"
+ritops = "https://clearcutradio.app/api/v1/calls?system=very-bad&talkgroup=100"
 
 # Sync Functions
 
@@ -161,6 +162,7 @@ async def helpme(ctx):
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
     \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
+    \n/ops [X String: Optional Keyword Matching String]: Returns X# of Calls from RIT Campus Operations with optional keywords (Case Sensitive)
     \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
@@ -256,7 +258,7 @@ async def rit(ctx):
             text = data['transcript']['text']
 
             # Get all calls within num range with matching keywords
-            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
+            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text or "defib 63" in text):
                 message += str(timestamp) + " | " + text + "\n\n"
 
     response = get_source_clearcut(henfire)
@@ -376,9 +378,37 @@ async def tg(ctx, talkgroup: Optional[int], keyword: Optional[str]):
     await ctx.send(message)
 
 @bot.command()
-async def ritp(ctx, password: Optional[str], keyword: Optional[str]):
+async def ritp(ctx, keyword: Optional[str]):
     response = get_source_clearcut(ritpub)
     message = "```RIT Public Safety Call Transcripts:\n\n"
+
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
+
+            
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
+    
+    message = message[ 0 : 1997 ]
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
+async def ops(ctx, keyword: Optional[str]):
+    response = get_source_clearcut(ritops)
+    message = "```RIT Campus Operations Call Transcripts:\n\n"
 
     for data in response:
         if (data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
