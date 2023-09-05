@@ -150,10 +150,10 @@ bot.remove_command('help')
 async def helpme(ctx):
     """Gets Status of RPI Server"""
     await ctx.send("""
-    ```\MC Emergency Services Discord Bot Help!
+    \MC Emergency Services Discord Bot Help!
     \n\nCreated by Aidan LeMay using Discord.py
     \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
-    \n\n__Command Help:__
+    \n\n```__Command Help:__
     \n/helpme: Display this help window```
     """)
 
@@ -175,8 +175,8 @@ async def helpme(ctx):
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out
-    \n/pogle or /polge: fun
-    \n\nVisit the creator here! https://aidanlemay.com/```
+    \n/pogle or /polge: fun```
+    \n\nVisit the creator here! https://aidanlemay.com/
     """)
 
 @bot.command()
