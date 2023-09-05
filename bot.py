@@ -153,12 +153,12 @@ async def helpme(ctx):
     \MC Emergency Services Discord Bot Help!
     \n\nCreated by Aidan LeMay using Discord.py
     \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
-    \n\n```__Command Help:__
-    \n/helpme: Display this help window```
+    \n\nVisit the creator here! https://aidanlemay.com/
     """)
 
     await ctx.send("""
-    ```\n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
+    ```\n\n/helpme: Display this help window
+    \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
     \n/tgs [X String: Optional Keyword Matching String]: Returns list of active talkgroups with optional keywords
     \n/rit: Returns both fire and ems calls from last 24 hours relating to RIT
     \n/rita [X String: Optional Keyword Matching String]: Returns calls from the last 24 hours from TG 1894
@@ -176,7 +176,6 @@ async def helpme(ctx):
     \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out
     \n/pogle or /polge: fun```
-    \n\nVisit the creator here! https://aidanlemay.com/
     """)
 
 @bot.command()
