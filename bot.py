@@ -13,6 +13,7 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="/", intents=intents)
 
 monems = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1077"
+monfire = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1811"
 henfire = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1654"
 ritpub = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=3070"
 ritamb = "https://clearcutradio.app/api/v1/calls?system=us-ny-monroe&talkgroup=1894"
@@ -154,15 +155,22 @@ async def helpme(ctx):
     \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
     \n\n__Command Help:__
     \n/helpme: Display this help window
+    """)
+
+    await ctx.send("""
     \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
     \n/tgs [X String: Optional Keyword Matching String]: Returns list of active talkgroups with optional keywords
-    \n/rit: Returns both fire and ems calls from last 24 hours having to do with RIT
+    \n/rit: Returns both fire and ems calls from last 24 hours relating to RIT
     \n/rita [X String: Optional Keyword Matching String]: Returns calls from the last 24 hours from TG 1894
     \n/ems [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1077 (MC EMS Dispatch) with optional keywords (Case Sensitive)
+    \n/fire [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1811 (MC FD Dispatch) with optional keywords (Case Sensitive)
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
     \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
     \n/ops [X String: Optional Keyword Matching String]: Returns X# of Calls from RIT Campus Operations with optional keywords (Case Sensitive)
+    """)
+
+    await ctx.send("""
     \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
@@ -200,6 +208,34 @@ async def ems(ctx, keyword: Optional[str]):
     await ctx.send(message)
 
 @bot.command()
+async def fire(ctx, keyword: Optional[str]):
+    response = get_source_clearcut(monfire)
+    message = "```Monroe County Fire Call Transcripts:\n\n"
+
+    for data in response:
+        if (data is not None and data['transcript'] is not None and data is not None and data['transcript'] is not None and data['transcript']['text'] is not None):
+            curtime = datetime.today() - timedelta(hours = 4)
+            timestamp = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            calltime = datetime.fromtimestamp(data['startTime']) - timedelta(hours = 4)
+            mintime = curtime - timedelta(hours = 24)
+            text = data['transcript']['text']
+
+            if (keyword is not None):
+                # Get all calls within num range with matching keywords
+                if (calltime > mintime and keyword in text):
+                    message += str(timestamp) + " | " + text + "\n\n"
+            else:
+                # Get all calls within num range
+                if (calltime > mintime):
+                    message += str(timestamp) + " | " + text + "\n\n"
+        
+    message = message[ 0 : 1997 ]
+
+    message += "```"
+
+    await ctx.send(message)
+
+@bot.command()
 async def rite(ctx):
     response = get_source_clearcut(monems)
     message = "```RIT EMS Call Transcripts:\n\n"
@@ -210,7 +246,7 @@ async def rite(ctx):
             text = data['transcript']['text']
 
             # Get all calls within num range with matching keywords
-            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text):
+            if ("RIT" in text or "6359" in text or "6-3-5-9" in text or "Defib 63" in text or "DEFIB 63" in text or "defib 63" in text):
                 message += str(timestamp) + " | " + text + "\n\n"
 
     message = message[ 0 : 1997 ]
