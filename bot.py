@@ -154,11 +154,11 @@ async def helpme(ctx):
     \n\nCreated by Aidan LeMay using Discord.py
     \nhttps://github.com/aidan-lemay/MC-Emergency-Bot
     \n\n__Command Help:__
-    \n/helpme: Display this help window
+    \n/helpme: Display this help window```
     """)
 
     await ctx.send("""
-    \n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
+    ```\n/tg [TG ID] [Keyword (Optional)]: Returns calls from the specified TG with optional keywords (Case Sensitive) from the last 24 hours
     \n/tgs [X String: Optional Keyword Matching String]: Returns list of active talkgroups with optional keywords
     \n/rit: Returns both fire and ems calls from last 24 hours relating to RIT
     \n/rita [X String: Optional Keyword Matching String]: Returns calls from the last 24 hours from TG 1894
@@ -167,11 +167,11 @@ async def helpme(ctx):
     \n/rite: Returns all calls within the last 24 hours from TG 1077 that contain "RIT", "6359", or "DEFIB 63"
     \n/hfd [X String: Optional Keyword Matching String]: Returns X# of Calls from TG 1654 (HFD Dispatch) with optional keywords (Case Sensitive)
     \n/ritf: Returns all calls within the last 24 hours from TG 1654 that contain "RIT"
-    \n/ops [X String: Optional Keyword Matching String]: Returns X# of Calls from RIT Campus Operations with optional keywords (Case Sensitive)
+    \n/ops [X String: Optional Keyword Matching String]: Returns X# of Calls from RIT Campus Operations with optional keywords (Case Sensitive)```
     """)
 
     await ctx.send("""
-    \n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
+    ```\n/m911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/h911 [X#: Optional Quantity]: Returns X# of Henrietta area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/r911 [X#: Optional Quantity]: Returns X# of Rochester area 911 Events from https://www.monroecounty.gov/incidents911.rss with all 'PARKING INCIDENT's filtered out
     \n/a911 [X#: Optional Quantity]: Returns X# of Monroe County 911 Events from https://www.monroecounty.gov/incidents911.rss with no data filtered out
