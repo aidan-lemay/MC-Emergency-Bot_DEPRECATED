@@ -1,3 +1,5 @@
+# DEPRECATED! Please refer to https://github.com/aidan-lemay/MC-Emergency-Bot/ for future updates!
+
 ## Monroe County NY Emergency Services Bot
 #### Created by Aidan LeMay, https://aidanlemay.com/
 
